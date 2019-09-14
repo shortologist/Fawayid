@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Live chat{% endblock %}
+{% block content %}
+<div class="container">
+        <div class="table-wrapper col-sm-5">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+						<h2>Create chat</h2>
+					</div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users%}
+                    <tr>
+                            <td>
+                                <a href="{% url 'room' user.id %}">
+                                <div class="user-menu-wrap">
+                                    <div class="mini-photo-wrapper"><img class="mini-photo" src="{{user.profile.photo.url}}" width="36" height="36"/> {{user.username}}</div>
+                                </div>
+                                </a>
+                            </td>
+                            <td><span class="status text-success">&bull;</span> Active</td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+                <ul class="pagination">
+                    {% if users.has_previous %}
+                    <li class="page-item"><a href="?page={{users.previous_page_number}}">Previous</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a href="#">Previous</a></li>
+                    {% endif %}
+                    {% for page in users.paginator.page_range %}
+                    <li class="page-item {% if page == users.number %}active{% endif %}"><a href="?page={{page}}" class="page-link">{{page}}</a></li>
+                    {% endfor %}
+                    {% if users.has_next %}
+                    <li class="page-item"><a href="?page={{users.next_page_number}}" class="page-link">Next</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a href="#" class="page-link">Next</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="table-wrapper col-sm-2">
+            </div>
+            <div class="table-wrapper col-sm-5">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+						<h2>User <b>Management</b></h2>
+					</div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users%}
+                    <tr>
+                        <a href="#">
+                            <td>
+                                <div class="user-menu-wrap">
+                                    <div class="mini-photo-wrapper"><img class="mini-photo" src="{{user.profile.photo.url}}" width="36" height="36"/></div>
+                                </div>
+                            </td>
+                            <td><span class="status text-success">&bull;</span> Active</td>
+                        </a>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+                <ul class="pagination">
+                    <li class="page-item disabled"><a href="#">Previous</a></li>
+                    <li class="page-item"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                </ul>
+            </div>
+        </div>
+{% endblock %}

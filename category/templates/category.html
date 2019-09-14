@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Category{% endblock %}
+{% block content %}
+<!-- Category Section -->
+
+    <section id="home" class="main-home parallax-section" {% if category.image %}style="background: url('{{ category.image.url }}') no-repeat;"{% endif %}>
+         <div class="overlay"></div>
+         <div id="particles-js"></div>
+         <div class="container">
+              <div class="row">
+
+                   <div class="col-md-12 col-sm-12">
+                        <h1>{{ category.title }}</h1>
+                   </div>
+
+              </div>
+         </div>
+    </section>
+    <!-- Blog Section -->
+  <section id="blog">
+         <div class="container">
+              <div class="row">
+                  {% if request.user.profile.auther %}
+                  <form enctype="multipart/form-data" action="" method="post">
+                      <h2>Profile Edit</h2>
+                        {% csrf_token %}
+                            {{ form.as_p }}
+                        <p>
+                            <input type="submit" value="Post" id="submit">
+                        </p>
+                  </form>
+                  {% endif %}
+                  <div class="col-md-offset-1 col-md-10 col-sm-12">
+                      {% for post in page %}
+                        <div class="blog-post-thumb">
+                             <div class="blog-post-image">
+                                 <a href="{{ post.get_absolute_url }}">
+                                     <img src="{%if post.image %}{{ post.image.url }}{%endif%}" class="img-responsive" alt="Blog Image" width="1200" height="800">
+                                 </a>
+                             </div>
+                            <div class="blog-post-title">
+                                  <h3><a href="{{ post.get_absolute_url }}">{{post.title}}</a></h3>
+                             </div>
+                            <div class="blog-post-format">
+                                <span><a href="#"><img
+                                        src="{%if post.author.profile.photo %}{{post.author.profile.photo.url}}{%endif%}" class="img-responsive img-circle">{{post.author}}</a></span>
+                                <span><i class="fa fa-date"></i>{{post.publishDate }}</span>
+                                <!--<span><i class="fa fa-eye"></i> {{
+                                post.get_view_count }} Views</span>-->
+                                <span><a href="#"><i class="fa fa-comment-o"></i> {{ post.comment_set.all|length }} Comments</a></span>
+                            </div>
+                            <div class="blog-post-des">
+                                  <p>{{ post.content|truncatewords:30|safe }}.</p>
+                                  <a href="{{ post.get_absolute_url }}" class="btn btn-default">Continue Reading</a>
+                             </div>
+                        </div>
+                      {% empty %}
+                        <div>
+                            <h1>No Post was Found.</h1>
+                        </div>
+                    {% endfor %}
+                  </div>
+                  {% if page.has_other_pages %}
+                    <div class="page-center">
+          <div class="pagination-center">
+            <div class="paginator">
+              <ul class="pagination">
+                    {% if page.has_previous %}
+                    <li class="page-item"><a href="?page={{page.previous_page_number}}">Previous</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a href="">Previous</a></li>
+                    {% endif %}
+                    {% for p in page.paginator.page_range %}
+                    <li class="page-item {% if p == page.number %}active{% endif %}"><a href="?page={{p}}" class="page-link">{{p}}</a></li>
+                    {% endfor %}
+                    {% if page.has_next %}
+                    <li class="page-item"><a href="?page={{page.next_page_number}}" class="page-link">Next</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a href="" class="page-link">Next</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+          </div>
+        </div>
+                  {% endif %}
+              </div>
+         </div>
+     </section>
+{% endblock %}

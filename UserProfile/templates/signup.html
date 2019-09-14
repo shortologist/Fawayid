@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+    <form method="post" action="#">
+        <h2>Sign up</h2>
+        {% csrf_token %}
+        {{form.as_p}}
+        <p>
+            <input type="submit" value="سجل" id="submit">
+        </p>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <!--<script src="{% static 'js/signup.js' %}"></script>-->
+   <!-- <script>
+        $('.navbar').remove();
+    </script>-->
+{% endblock %}
